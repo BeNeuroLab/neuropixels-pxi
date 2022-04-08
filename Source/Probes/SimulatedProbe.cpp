@@ -267,7 +267,7 @@ void SimulatedProbe::run()
 
 			std::uniform_int_distribution<std::mt19937::result_type> data(1,REFRACTORY_POTENTIAL_RANGE_IN_MV); 
 
-			Sleep(25); //TODO: This is just an estimate on my machine for now, should be a function of nSamples
+			//Sleep(7); //TODO: This is just an estimate on my machine for now, should be a function of nSamples
 
 			float apSamples[384];
 			float lfpSamples[384];
@@ -305,12 +305,15 @@ void SimulatedProbe::run()
 					for (int j = 0; j < 384; j++)
 					{
 
-						apSamples[j] = abs(sin(j))*sample_out;
+						// apSamples[j] = abs(sin(j))*sample_out;
+						// apSamples[j] = (float)j + 1.0f;
+						apSamples[j] = sin(1 / sampleRate * float(ap_timestamp) * 2 * 3.1415926) * 10.0;
 						apView->addSample(sin(j)*sample_out, j);
 
 						if (i == 0 && generatesLfpData())
 						{
-							lfpSamples[j] = 1000.0f*sin(ap_timestamp);
+							// lfpSamples[j] = 1000.0f*sin(ap_timestamp);
+							lfpSamples[j] = -(float)j - 1.0f;
 							lfpView->addSample(lfpSamples[j], j);
 						}
 						

@@ -30,6 +30,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "Basestation_v1.h"
 #include "../Probes/Neuropixels1_v1.h"
 #include "../Headstages/Headstage1_v1.h"
+// #include "../Headstages/SimulatedHeadstage.h"
 #include "../Utils.h"
 
 #define MAXLEN 50
@@ -144,7 +145,17 @@ bool Basestation_v1::open()
 			}
 
 		}
-
+		
+		/*
+		headstages.add(new SimulatedHeadstage(this, 0, "PRB_1_4_0480_1", 99999));
+		for (auto headstage : headstages)
+		{
+			if (headstage != nullptr)
+			{
+				probes.add(headstage->getProbes()[0]);
+			}
+		}
+		*/
 		LOGD("Found ", probes.size(), probes.size() == 1 ? " probe." : " probes.");
 	}
 
@@ -279,7 +290,6 @@ float Basestation_v1::getFillPercentage()
 
 	return perc;
 }
-
 void Basestation_v1::startAcquisition()
 {
 	for (auto probe : probes)
@@ -291,6 +301,25 @@ void Basestation_v1::startAcquisition()
 
 }
 
+/*
+void Basestation_v1::startAcquisition()
+{
+	for (int i = 0; i < probes.size(); i++)
+	{
+
+		probes[i]->ap_timestamp = 0;
+		probes[i]->apBuffer->clear();
+		if (probes[i]->generatesLfpData())
+		{
+			probes[i]->lfp_timestamp = 0;
+			probes[i]->lfpBuffer->clear();
+		}
+		probes[i]->startThread();
+	}
+
+}
+*/
+
 void Basestation_v1::stopAcquisition()
 {
 	for (auto probe : probes)
@@ -300,7 +329,16 @@ void Basestation_v1::stopAcquisition()
 
 	errorCode = np::arm(slot_c);
 }
+/*
+void Basestation_v1::stopAcquisition()
+{
+	for (int i = 0; i < probes.size(); i++)
+	{
+		probes[i]->stopThread(1000);
+	}
 
+}
+*/
 void Basestation_v1::updateBscFirmware(File file)
 {
 	bscFirmwarePath = file.getFullPathName();

@@ -3,7 +3,7 @@
 # 1. intermediate files
 *.o
 *.d
-
+.vs
 
 # 2. Platform specific build related
 

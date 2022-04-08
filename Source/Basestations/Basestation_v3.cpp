@@ -32,6 +32,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "../Headstages/Headstage1_v3.h"
 #include "../Headstages/Headstage2.h"
 #include "../Headstages/Headstage_Analog128.h"
+// #include "../Headstages/SimulatedHeadstage.h"
 #include "../Utils.h"
 
 #define MAXLEN 50
@@ -182,7 +183,7 @@ bool Basestation_v3::open()
 
 
 		}
-
+		// headstages.add(new SimulatedHeadstage(this, 0, "PRB_1_4_0480_1", 99999));
 		LOGD("    Found ", probes.size(), probes.size() == 1 ? " probe." : " probes.");
 	}
 
